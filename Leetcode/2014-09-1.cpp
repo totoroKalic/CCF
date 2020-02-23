@@ -8,6 +8,7 @@
 	3
 */
 
+//ÏàÁÚÊı¶Ô
 //http://118.190.20.162/view.page?gpid=T16
 
 //the first way:use array count to make it
