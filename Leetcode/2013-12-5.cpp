@@ -12,6 +12,7 @@ output:
 	2
 */
 
+//I`m stuck!
 //http://118.190.20.162/view.page?gpid=T1
 
 /*
