@@ -11,6 +11,7 @@
 	HELLOisNOTHello
 */
 
+//字符串匹配
 //http://118.190.20.162/view.page?gpid=T14
 
 //方法一：使用相关的的库函数
