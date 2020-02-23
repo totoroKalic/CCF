@@ -151,3 +151,16 @@ int main() {
 
 using namespace std;
 
+struct _notes
+{
+	string sign;
+	float price;
+	long long number;
+	int flag_cancel;
+};
+
+struct _all{
+	float price;
+	long long In_number;
+	long long Out_number;
+};
