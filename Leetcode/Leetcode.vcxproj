@@ -81,6 +81,7 @@
     <ClCompile Include="2014-09-4.cpp" />
     <ClCompile Include="2014-12-1.cpp" />
     <ClCompile Include="2014-12-2.cpp" />
+    <ClCompile Include="2014-12-3.cpp" />
     <ClCompile Include="Text.cpp" />
   </ItemGroup>
   <ItemGroup>
