@@ -12,6 +12,7 @@
 	9.00 450
 */
 
+//集合竞价
 //http://118.190.20.162/view.page?gpid=T19
 
 //demo
@@ -144,14 +145,16 @@ int main() {
 }
 */
 
+/*
 #include <iostream>
 #include <cstring>
 #include <algorithm>
 #include <vector>
+#include <string>
 
 using namespace std;
 
-struct _notes
+struct _dates
 {
 	string sign;
 	float price;
@@ -164,3 +167,115 @@ struct _all{
 	long long In_number;
 	long long Out_number;
 };
+
+struct _answer
+{
+	float price;
+	long long number;
+};
+
+vector<_dates> dates;
+vector<_all> all;
+_dates temp_data;
+_all temp_all;
+_answer ans;
+
+
+bool cmp(_dates a, _dates b){
+	if (a.flag_cancel == 1 && a.flag_cancel == b.flag_cancel)
+		return a.price < b.price;
+	else
+		return a.flag_cancel > b.flag_cancel;
+}
+
+void find(string a, float b, long long c){
+	int i = 0;
+	for (i; i < all.size(); i++){
+		if (all[i].price == b){
+			if (a == "sell")
+				all[i].Out_number += c;
+			if (a == "buy")
+				all[i].In_number += c;
+			break;
+		}
+	}
+	if (i == all.size()){
+		if (a == "sell"){
+			temp_all.price = b;
+			temp_all.In_number = 0;
+			temp_all.Out_number = c;
+		}
+		if (a == "buy"){
+			temp_all.price = b;
+			temp_all.In_number = c;
+			temp_all.Out_number = 0;
+		}
+
+		all.push_back(temp_all);
+	}
+}
+
+
+int main(){
+	ans.number = 0;
+	while (cin >> temp_data.sign){
+		if (temp_data.sign == "sell" || temp_data.sign == "buy"){
+			cin >> temp_data.price >> temp_data.number;
+			temp_data.flag_cancel = 1;
+		}
+		else if (temp_data.sign == "cancel"){
+			cin >> temp_data.price;
+			dates[temp_data.price - 1].flag_cancel = 0;
+			temp_data.flag_cancel = 0;
+		}
+		else
+			break;
+
+		dates.push_back(temp_data);
+	}
+
+	sort(dates.begin(), dates.end(), cmp);
+	
+	for (int i = 0; i < dates.size(); i++){
+		if (dates[i].flag_cancel == 1){
+			find(dates[i].sign, dates[i].price, dates[i].number);
+		}
+		else
+			continue;
+	}
+
+	//run and ignore
+	cout << endl;
+	cout << "The money of: " << endl;
+	cout << "a：出价 b：买入股数 s：卖出股数" << endl;
+	for (int i = 0; i < all.size(); i++){
+		cout << "   " << all[i].price << "   " << all[i].In_number << "   " << all[i].Out_number << endl;
+	}
+	
+
+	
+	//出价至少为x的买单和出价至多为x的卖单
+
+	for (int i = 0; i < all.size(); i++){
+		long long com_one = 0;
+		long long com_two = 0;
+		long long answer;
+
+		for (int j = i; j < all.size(); j++)//buy
+			com_one += all[j].In_number;
+		for (int k = i; k >= 0; k--) //sell
+			com_two += all[k].Out_number;
+		
+		answer = com_one > com_two ? com_two : com_one;
+
+		if (answer >= ans.number){
+			ans.price = all[i].price;
+			ans.number = answer;
+		}
+	}
+
+	printf("%.2f %lld\n", ans.price, ans.number);
+
+	return 0;
+}
+*/
