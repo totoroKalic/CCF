@@ -47,14 +47,13 @@ const int N = 10000;
 
 
 class Graph{
+public:
 	int V;
 	set<int> adj[N + 5];
-	int flag_connect = 0;
 	bool visited[N + 5];
 	bool visit[N + 5][N + 5];
 	stack<int> path;
 
-public:
 	Graph(int n);
 	void insertEdge(int a, int b);
 	bool isConnect();	
@@ -81,7 +80,6 @@ void Graph::insertEdge(int a, int b){
 //用dfs判断是否联通
 
 void Graph::dfs_connect(int a){
-	flag_connect++;
 	visited[a] = true;
 	for (set<int>::iterator it = adj[a].begin(); it != adj[a].end(); it++){
 		int n = *it;
@@ -97,10 +95,11 @@ void Graph::dfs_connect(int a){
 bool Graph::isConnect(){
 	memset(visited, false, sizeof(visited));
 	dfs_connect(1);
-	if (V == flag_connect)
-		return true;
-	else
-		return false;
+	for(int i = 1;i<=V;i++){
+		if(visited[i] == false)
+			return false;
+	}
+	return true;
 }
 
 
@@ -137,7 +136,6 @@ void Graph::dfs_route(int a){
 //	求出欧拉最小路径
 
 void Graph::minRoute(){
-	int i;
 	memset(visit, false, sizeof(visit));
 
 	dfs_route(1);
@@ -151,16 +149,15 @@ void Graph::minRoute(){
 
 
 int main(){
-	int n, m, start, end;
+	int n, m, point_start, point_end;
 	cin >> n >> m;
+	
 	Graph gra(n);
 
 	for (int i = 0; i < m; i++){
-		cin >> start >> end;
-		gra.insertEdge(start, end);
+		cin >> point_start >> point_end;
+		gra.insertEdge(point_start, point_end);
 	}
-	
-	//gra.readAdj();
 
 	if (gra.isConnect() == false)
 		cout << -1 << endl;
@@ -170,7 +167,89 @@ int main(){
 		else
 			gra.minRoute();
 	}
-	
+
 	return 0;
 }
 */
+
+
+//上面出错
+/*
+#include <iostream>
+#include <set>
+#include <stack>
+#include <cstring>
+
+using namespace std;
+
+const int N = 10000;
+
+bool visited[N + 1][N + 1];
+int visit[N + 1];
+set<int> adj[N + 1];
+stack<int> path;
+
+void isConnect(int a){
+	visit[a] = 1;
+	for (set<int>::iterator it = adj[a].begin(); it != adj[a].end(); it++){
+		if (visit[*it] == 0)
+			isConnect(*it);
+	}
+}
+
+void route(int a){
+	for (set<int>::iterator it = adj[a].begin(); it != adj[a].end(); it++){
+		if (visited[a][*it] == false){
+			visited[a][*it] = true;
+			visited[*it][a] = true;
+			route(*it);
+		}
+	}
+	path.push(a);
+}
+
+
+int main(){
+	int n, m, src, dest;
+	cin >> n >> m;
+	memset(visited, false, sizeof(visited));
+	memset(visit, 0, sizeof(visit));
+
+	for (int i = 0; i < m; i++){
+		cin >> src >> dest;
+		adj[src].insert(dest);
+		adj[dest].insert(src);
+	}
+	
+	isConnect(1);
+	bool Connect = true;
+	for (int i = 1; i <= n; i++){
+		if (visit[i] == 0)
+			Connect = false;
+	}
+
+	if (Connect == true){
+		int count = 0;
+		bool oula = false;
+		for (int i = 1; i <= n; i++){
+			if (adj[i].size() % 2 == 1)
+				count++;
+		}
+		if (count == 0 || (count == 2 && adj[1].size() % 2 == 1))
+			oula = true;
+		if (oula == true){
+			route(1);
+			while (!path.empty()){
+				cout << path.top() << " ";
+				path.pop();
+			}
+			cout << endl;
+		}
+		else
+			cout << -1 << endl;
+	}
+	else
+		cout << -1 << endl;
+
+	return 0;
+}*/
